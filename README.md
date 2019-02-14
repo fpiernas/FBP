@@ -14,7 +14,7 @@ Place "fbp.hpp" to the same directory as your source code and include it:
 
 Use this code:
 
-    Mat sinogram=imread("sin5.png",IMREAD_COLOR); //load the sinogram image "sinogram.jpg"
+    Mat sinogram=imread("sinogram.jpg",IMREAD_COLOR); //load the sinogram image "sinogram.jpg"
     Mat filtered_sinogram=filter_sinogram(sinogram); //filter the sinogram
     Mat reconstruction=iradon(filtered_sinogram,false); //perform back projection. Change false to true if sinogram is a full turn
     renormalize255_frame(reconstruction); //normalize to 255
