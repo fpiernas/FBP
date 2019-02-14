@@ -57,11 +57,11 @@ The reconstruction from a sinogram image is straight forward. However, the recon
 
 * The code will ask the user to select the end frame (angle 360º or 180º depending if full_turn is true or false). Press "+" until the object looks the same as in the beginning frame you selected earlier (so it has completed a full turn) or press it until the object has completed half a turn.
 
-* The code ask the user to select the object. It's critical to do this in a way that the central vertical line of the grid matches the axis of rotation.
+* The code asks the user to select the object. It's critical to do this in a way that the central vertical line of the grid matches the axis of rotation.
 
 * The code converts all frames to float, perform a gamma correction and converts to grayscale. If extra_frames is greater than 0, the code interpolates new images.
 
-* The code ask the user to select an area of the background of the images where there is no object. It computes the mean intensity of the background for the next step. You can select no area and this background intensity is set to 1.
+* The code asks the user to select an area of the background of the images where there is no object. It computes the mean intensity of the background for the next step. You can select no area and this background intensity is set to 1.
 
 * The code calculates absorptances by dividing the intensities of each pixel by the mean background calculated before, then applies a -1.0*log10( ) to this value.
 
