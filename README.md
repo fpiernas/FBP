@@ -1,5 +1,5 @@
 # FBP
-Filtered Back Projection C++
+Filtered Back Projection C++ by Fran Piernas Diaz
 
 **Requirements**
 
@@ -19,6 +19,10 @@ Use this code:
     Mat reconstruction=iradon(filtered_sinogram,false); //perform back projection. Change false to true if sinogram is a full turn
     renormalize255_frame(reconstruction); //normalize to 255
     imwrite("Reconstruction.jpg",reconstruction); //save reconstruction
+    
+**How to get data to use with the program**
+
+Just record a video of the object spinning through X-Rays. You don't have to cut the video so the file consists of a loop of the object, the code will later ask you to cut it.
     
 **How to use the code to reconstruct a 3D object from a CT scan video**
 
@@ -46,6 +50,7 @@ Call this function:
 Where video is a vector\<Mat\> object. All other parameters are the same as explained above.
 
 **What the code does**
+
 The reconstruction from a sinogram image is straight forward. However, the reconstruction from a video requires more steps:
 
 *The code will load the video and ask the user to select the exact frame of the video where the CT scan begins, this frame gets the angle 0º when performing the Radon transform. Navigate through frames with keys "+", "-" and "Enter". Don't use the numpad.
