@@ -53,22 +53,22 @@ Where video is a vector\<Mat\> object. All other parameters are the same as expl
 
 The reconstruction from a sinogram image is straight forward. However, the reconstruction from a video requires more steps:
 
-*The code will load the video and ask the user to select the exact frame of the video where the CT scan begins, this frame gets the angle 0º when performing the Radon transform. Navigate through frames with keys "+", "-" and "Enter". Don't use the numpad.
+* The code will load the video and ask the user to select the exact frame of the video where the CT scan begins, this frame gets the angle 0º when performing the Radon transform. Navigate through frames with keys "+", "-" and "Enter". Don't use the numpad.
 
-*The code will ask the user to select the end frame (angle 360º or 180º depending if full_turn is true or false). Press "+" until the object looks the same as in the beginning frame you selected earlier (so it has completed a full turn) or press it until the object has completed half a turn.
+* The code will ask the user to select the end frame (angle 360º or 180º depending if full_turn is true or false). Press "+" until the object looks the same as in the beginning frame you selected earlier (so it has completed a full turn) or press it until the object has completed half a turn.
 
-*The code ask the user to select the object. It's critical to do this in a way that the central vertical line of the grid matches the axis of rotation.
+* The code ask the user to select the object. It's critical to do this in a way that the central vertical line of the grid matches the axis of rotation.
 
-*The code converts all frames to float, perform a gamma correction and converts to grayscale. If extra_frames is greater than 0, the code interpolates new images.
+* The code converts all frames to float, perform a gamma correction and converts to grayscale. If extra_frames is greater than 0, the code interpolates new images.
 
-*The code ask the user to select an area of the background of the images where there is no object. It computes the mean intensity of the background for the next step. You can select no area and this background intensity is set to 1.
+* The code ask the user to select an area of the background of the images where there is no object. It computes the mean intensity of the background for the next step. You can select no area and this background intensity is set to 1.
 
-*The code calculates absorptances by dividing the intensities of each pixel by the mean background calculated before, then applies a -1.0*log10( ) to this value.
+* The code calculates absorptances by dividing the intensities of each pixel by the mean background calculated before, then applies a -1.0*log10( ) to this value.
 
-*The code makes the sinograms and filters them with an abs(sine()) filter
+* The code makes the sinograms and filters them with an abs(sine()) filter
 
-*The code gets the inverse Radon transform for all sinograms.
+* The code gets the inverse Radon transform for all sinograms.
 
-*Depending if normalizeBy frame is true or false, the code normalizes one way or another.
+* Depending if normalizeBy frame is true or false, the code normalizes one way or another.
 
-*The code converts all reconstructed slices to 8bit RGB, saves the video "Reconstruction.avi" and saves the point cloud with the desired pointcloud_threshold set.
+* The code converts all reconstructed slices to 8bit RGB, saves the video "Reconstruction.avi" and saves the point cloud with the desired pointcloud_threshold set.
