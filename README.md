@@ -55,7 +55,7 @@ The reconstruction from a sinogram image is straight forward. However, the recon
 
 *The code will load the video and ask the user to select the exact frame of the video where the CT scan begins, this frame gets the angle 0º when performing the Radon transform. Navigate through frames with keys "+", "-" and "Enter". Don't use the numpad.
 
-*The code will ask the user to select the end frame (angle 360º or 180º depending if full_turn is true or false). Press "+" until the object looks the same as in the begining frame you selected earlier (so it has completed a full turn) or press it until the object has completed half a turn.
+*The code will ask the user to select the end frame (angle 360º or 180º depending if full_turn is true or false). Press "+" until the object looks the same as in the beginning frame you selected earlier (so it has completed a full turn) or press it until the object has completed half a turn.
 
 *The code ask the user to select the object. It's critical to do this in a way that the central vertical line of the grid matches the axis of rotation.
 
