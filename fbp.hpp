@@ -27,7 +27,6 @@
     Created using OpenCV 4.0.0
     @author Fran Piernas Diaz (fran.piernas@gmail.com)
     @version 1.0
-    @copyright CreativeCommons CC BY-SA
     Based on Peter Toft: "The Radon Transform - Theory and Implementation",
     Ph.D. thesis. Department of Mathematical Modelling, Technical University of Denmark, June 1996.
 
