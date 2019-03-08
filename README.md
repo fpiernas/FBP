@@ -1,6 +1,11 @@
 # FBP
 Filtered Back Projection C++ by Fran Piernas Diaz
 
+**CHANGELOG**
+    V1.1:
+        Changed the way the point cloud is saved. Values are now floating point normalized
+        from 0 to 255, instead of 0 to 255 but integer, as in V1.0.
+
 **Requirements**
 
 OpenCV must be installed. To compile, link all OpenCV libraries.
