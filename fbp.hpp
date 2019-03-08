@@ -1,21 +1,17 @@
 /**
     fbp.hpp
     Filtered Back Projection Algorithm
-    
+
     MIT License
-
     Copyright (c) 2019 Fran Piernas Diaz
-
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
     in the Software without restriction, including without limitation the rights
     to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
     copies of the Software, and to permit persons to whom the Software is
     furnished to do so, subject to the following conditions:
-
     The above copyright notice and this permission notice shall be included in all
     copies or substantial portions of the Software.
-
     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
     IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
     FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -23,12 +19,23 @@
     LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
-    
+
     Created using OpenCV 4.0.0
+
     @author Fran Piernas Diaz (fran.piernas@gmail.com)
-    @version 1.0
+    @version 1.1
+
     Based on Peter Toft: "The Radon Transform - Theory and Implementation",
     Ph.D. thesis. Department of Mathematical Modelling, Technical University of Denmark, June 1996.
+
+
+
+    ************CHANGELOG************
+    V1.1:
+        Changed the way the point cloud is saved. Values are now floating point normalized
+        from 0 to 255, instead of 0 to 255 but integer, as in V1.0.
+
+
 
     Usage to reconstruct a single sinogram, use this code:
 
@@ -214,7 +221,7 @@ Mat iradon(Mat& sinogram, bool full_turn) //Sinogram must be a 32bit single chan
             reconstruction.at<float>(f,c)=0;
             for(t=0;t<sinogram.size().width;t++)
             {
-                rho=round((f-0.5*sinogram.size().height)*cos(delta_t*t)+(c-0.5*sinogram.size().height)*sin(delta_t*t)+0.5*sinogram.size().height);
+                rho=((f-0.5*sinogram.size().height)*cos(delta_t*t)+(c-0.5*sinogram.size().height)*sin(delta_t*t)+0.5*sinogram.size().height);
                 if((rho>0)&&(rho<sinogram.size().height)) reconstruction.at<float>(f,c)+=sinogram.at<float>(rho,t);
             }
             if(reconstruction.at<float>(f,c)<0)reconstruction.at<float>(f,c)=0;
@@ -254,7 +261,7 @@ void renormalize255_frame(Mat& frame)
     {
         for(c=0;c<frame.size().width;c++)
         {
-            frame.at<float>(f,c)=round(frame.at<float>(f,c)*255.0/maxm);
+            frame.at<float>(f,c)=frame.at<float>(f,c)*255.0/maxm;
         }
     }
     return;
@@ -267,7 +274,7 @@ void renormalize255_frame(Mat& frame, float maxm)
     {
         for(c=0;c<frame.size().width;c++)
         {
-            frame.at<float>(f,c)=round(frame.at<float>(f,c)*255.0/maxm);
+            frame.at<float>(f,c)=frame.at<float>(f,c)*255.0/maxm;
         }
     }
     return;
@@ -389,6 +396,7 @@ void save_scan(vector<Mat>& slices, unsigned int i_threshold)
 {
     ofstream save_slices;
     save_slices.open("slices.xyz");
+    save_slices.precision(6);
     unsigned int slice, f, c;
     for(slice=0;slice<slices.size();slice++)
     {
@@ -396,10 +404,10 @@ void save_scan(vector<Mat>& slices, unsigned int i_threshold)
         {
             for(c=0;c<slices.at(slice).size().width;c++)
             {
-                if(1.0*((int)slices.at(slice).at<Vec3b>(f,c)[0]+(int)slices.at(slice).at<Vec3b>(f,c)[1]+(int)slices.at(slice).at<Vec3b>(f,c)[2])/3.0>i_threshold)
+                if(slices.at(slice).at<float>(f,c)>i_threshold)
                 {
                     save_slices<<f<<" "<<c<<" "<<slice<<" ";
-                    save_slices<<(int)slices.at(slice).at<Vec3b>(f,c)[0]<<" ";
+                    save_slices<<scientific<<slices.at(slice).at<float>(f,c);
                     save_slices<<endl;
                 }
             }
@@ -521,14 +529,14 @@ void fbp(vector<Mat>& frames, unsigned int extra_frames, unsigned int pointcloud
     if(!normalizeByframe)renormalize255_frames(slices);
     else renormalize255_frame_by_frame(slices);
 
+    cout<<"Saving point cloud..."<<endl;
+    save_scan(slices,pointcloud_threshold);
+
     cout<<"Converting to RGB..."<<endl;
     convert_frames2RGB8(slices);
 
     cout<<"Saving video..."<<endl;
     save_video(slices,"Reconstruction.avi");
-
-    cout<<"Saving point cloud..."<<endl;
-    save_scan(slices,pointcloud_threshold);
 
     cout<<"Finished."<<endl;
     return;
@@ -569,14 +577,14 @@ void fbp(string input, unsigned int extra_frames, unsigned int pointcloud_thresh
     if(!normalizeByframe)renormalize255_frames(slices);
     else renormalize255_frame_by_frame(slices);
 
+    cout<<"Saving point cloud..."<<endl;
+    save_scan(slices,pointcloud_threshold);
+
     cout<<"Converting to RGB..."<<endl;
     convert_frames2RGB8(slices);
 
     cout<<"Saving video..."<<endl;
     save_video(slices,"Reconstruction.avi");
-
-    cout<<"Saving point cloud..."<<endl;
-    save_scan(slices,pointcloud_threshold);
 
     cout<<"Finished."<<endl;
     return;
