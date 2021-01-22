@@ -97,6 +97,7 @@ using namespace std;
 void gamma_correction_frame(Mat& frame)
 {
     unsigned int f,c;
+    unsigned int gm;
     for(f=0;f<frame.size().height;f++)
     {
         for(c=0;c<frame.size().width;c++)
